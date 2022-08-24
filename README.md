@@ -1,2 +1,5 @@
 # gravity_reductions
-A a research conducted in partial fufilment of my undergraduate degree in geomatics at the University of Cape Town.
+A research project submitted in partial fulfilment of the requirements for the degree of Bachelor of Science in Geomatics (Surveying) at the University of Cape Town
+
+A more precise elevation determination is then needed to compute more precise gravity anomalies with minimal errors. The new method of applying gravity correction / reduction using a Digital Elevation Model is superior to traditional methods in that it is highly accurate (minimal interpolation errors), labour-saving and more flexible by providing data for inaccessible locations (Banerjee and Paramesh, 1998).
+The Gravity Anomalies precision assessment is evaluated over Bushveld Complex in South Africa using 100 GPS/levelling, 1-arc-second Shuttle Radara Topography Mission (SRTM) DEM and Topographic Interpolated elevation data (1:50 000 South African topographical maps). Then the SRTM elevations/heights are to be used for 8040 Gravity Points Reduction to obtain precise gravity anomalies (Free-air anomaly, Simple Bouguer and Complete Bouguer anomaly).
