@@ -37,6 +37,12 @@ class data:
         return {" ":["Min", "Median", "Maximum", "Mean", "Range", "Standard Dev", "RMSE"], 
                  "SRTM Statistic": list(data1),
                  "Interpolated Statistic": list(data2)}
+    
+    def new_gravstatistics(data1, data2, data3):
+        return {" ":["Min", "Median", "Maximum", "Mean", "Range", "Standard Dev", "RMSE"], 
+                 "Free-air Statistic": list(data1),
+                 "Simple Bouguer Statistic": list(data2),
+                 "Complete - Simple Bouguer Statistic": list(data3)}
         
 class stat_analysis:
     def minimum(dataset):
@@ -86,7 +92,45 @@ def data_statistics(dataset):
             stat_analysis.rangee(dataset), stat_analysis.standard_deviation(dataset),
             stat_analysis.root_mean_square(dataset))
 
+class anomalies:
+    def latitude_correction(latitude):
+        latitude=mt.radians(latitude)
+        return 978031.84558 * (1 + (0.0053024*(mt.sin(latitude)**2)) - (0.0000058*(mt.sin(2 * latitude)**2)))
+
+    def freeair_correction(elevation): 
+        return 0.3086 * elevation
+
+    def simple_bouguer_correction(elevation):
+        return 0.04193 * 2.67 * elevation
+
+
+def adjust(latitude, longitude, height, parameters):
+    para=parameters
+    H=(para[0] * latitude) + (para[1] * longitude) + (para[2] * height) + (para[3])
+    return H
+
 class lsm:
+    def make_equations(dataset, sources):
+        A=[]
+        L=[]
+        percent=1
+        for i in dataset.itertuples():
+            lat=i.latitude
+            long=i.longitude
+            if sources=='srtm':
+                h_srtm=i.srtm
+            elif sources=='topographical_map':
+                h_srtm=i.topographical_map
+            else:
+                break
+            h_ortho=i.levelling
+            if percent<=int(len(dataset) * 0.7):
+                A.append([lat, long, h_srtm, 1])
+                L.append([h_ortho])
+                percent+=1
+        
+        return A, L
+                
     def parametric_lsm(A=None, L=None):
         if True:
             #%%Least Squares Mathematical function (Design, Discrepancy and Weight matrix)
